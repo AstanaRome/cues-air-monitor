@@ -1,0 +1,75 @@
+// Стили для карты
+.map-container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  
+  // Мобильная оптимизация карты
+  @media (max-width: 768px) {
+    height: 100vh;
+    
+    // Улучшенное взаимодействие на мобильных
+    .leaflet-container {
+      touch-action: manipulation;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    
+    // Оптимизация контролов карты
+    .leaflet-control-zoom {
+      transform: scale(0.9);
+      transform-origin: top right;
+    }
+    
+    .leaflet-control-attribution {
+      font-size: 0.75rem;
+      padding: 2px 4px;
+    }
+  }
+  
+  // Планшеты
+  @media (min-width: 769px) and (max-width: 1024px) {
+    height: 100vh;
+  }
+  
+  // Десктоп
+  @media (min-width: 1025px) {
+    height: 100vh;
+  }
+}
+
+// Утилиты для мобильных
+.mobile-optimized {
+  @media (max-width: 768px) {
+    // Увеличиваем области касания
+    button, 
+    a, 
+    input, 
+    select {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    // Улучшаем читаемость
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.25rem; }
+    h3 { font-size: 1.125rem; }
+    
+    // Оптимизируем отступы
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+}
+
+// Улучшения для производительности
+.performance-optimized {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+} 
