@@ -1,29 +1,11 @@
-import { useRef, useEffect, useState } from 'react';
-
-interface AirQualityData {
-  sensor: {
-    name: string;
-    lat: number;
-    lng: number;
-    source: string;
-    id_from_source: string;
-    isFaulty: string;
-    placement: string;
-  };
-  particulate_matter: {
-    pm25: number | null;
-    pm10: number | null;
-    pm1: number | null;
-    aqi: number | null;
-    pm25_aqi: number | null;
-    pm10_aqi: number | null;
-  };
-  physical_data_air: {
-    humidity: number | null;
-    temperature: number | null;
-  };
-  instant_created_at: string;
-}
+import { useRef, useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { 
+  fetchAirQualityData, 
+  selectAirQualityData, 
+  selectLoading, 
+  selectSelectedIndicator 
+} from '../../store/slices/airQualitySlice';
 
 interface DropdownsProps {
   indicatorDropdownOpen: boolean;
@@ -42,64 +24,19 @@ export default function Dropdowns({
   onIndicatorClose,
   onSensorsClose
 }: DropdownsProps) {
+  const dispatch = useAppDispatch();
   const indicatorRef = useRef<HTMLDivElement>(null);
   const sensorsRef = useRef<HTMLDivElement>(null);
-  const [airQualityData, setAirQualityData] = useState<AirQualityData[]>([]);
-  const [loading, setLoading] = useState(false);
+  
+  // Получаем данные из Redux store
+  const airQualityData = useAppSelector(selectAirQualityData);
+  const loading = useAppSelector(selectLoading);
+  const selectedIndicator = useAppSelector(selectSelectedIndicator);
 
-  // Функция для получения данных качества воздуха
-  const fetchAirQualityData = async (date: string = '2025-08-01T12:00:00Z') => {
-    console.log('🎯 fetchAirQualityData вызвана с датой:', date);
-    setLoading(true);
-    try {
-      console.log('🔄 Запрашиваем данные с API...');
-      const url = `https://test.cuesproject.com/api/air-quality/date?date=${date}`;
-      console.log('🌐 URL запроса:', url);
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        mode: 'cors'
-      });
-      
-      console.log('📡 Ответ от API:', response.status, response.statusText);
-      
-      if (response.ok) {
-        const data = await response.json();
-        console.log('✅ Получены данные:', data.length, 'записей');
-        console.log('📊 Пример данных:', data[0]);
-        setAirQualityData(data);
-      } else {
-        console.error('❌ Ошибка при получении данных:', response.status, response.statusText);
-        const errorText = await response.text();
-        console.error('📝 Текст ошибки:', errorText);
-      }
-    } catch (error) {
-      console.error('💥 Ошибка при запросе к API:', error);
-    } finally {
-      console.log('🏁 Завершаем загрузку, устанавливаем loading = false');
-      setLoading(false);
-    }
-  };
-
-  // Получаем данные при монтировании компонента
+  // Загружаем данные при монтировании компонента
   useEffect(() => {
-    console.log('🚀 Компонент смонтирован, загружаем данные...');
-    console.log('🔍 Вызываем fetchAirQualityData...');
-    fetchAirQualityData().then(() => {
-      console.log('✅ fetchAirQualityData завершен');
-    }).catch((error) => {
-      console.error('💥 Ошибка в fetchAirQualityData:', error);
-    });
-  }, []); // Убираем fetchAirQualityData из зависимостей
-
-  // Функция для обновления данных
-  const refreshData = () => {
-    console.log('🔄 Обновляем данные...');
-    fetchAirQualityData();
-  };
+    dispatch(fetchAirQualityData('2025-08-01T12:00:00Z'));
+  }, [dispatch]);
 
   const indicatorOptions = [
     { id: 'pm25', label: 'Загрязнитель PM2.5', value: 'pm25' },
@@ -110,9 +47,7 @@ export default function Dropdowns({
   const sensorOptions = [
     { id: 'all', label: 'Все датчики', value: 'all' },
     { id: 'street', label: 'Уличные датчики', value: 'street' },
-    { id: 'inside', label: 'Внутренние датчики', value: 'inside' },
-    { id: 'aqicn', label: 'AQICN источники', value: 'aqicn' },
-    { id: 'claritty', label: 'Claritty датчики', value: 'claritty' }
+    { id: 'inside', label: 'Домашние датчики', value: 'inside' }
   ];
 
   // Закрытие выпадающих списков при клике вне их
@@ -132,8 +67,6 @@ export default function Dropdowns({
     };
   }, [onIndicatorClose, onSensorsClose]);
 
-  console.log('🎯 Рендер компонента. Данные:', airQualityData.length, 'записей, Загрузка:', loading);
-
   return (
     <div className="top-menu-dropdowns">
       {/* Выпадающий список показателей */}
@@ -149,7 +82,7 @@ export default function Dropdowns({
               return (
                 <div
                   key={option.id}
-                  className="dropdown-item"
+                  className={`dropdown-item ${selectedIndicator === option.value ? 'selected' : ''}`}
                   onClick={() => onIndicatorSelect(option.value)}
                 >
                   {option.label}
@@ -181,12 +114,6 @@ export default function Dropdowns({
                   break;
                 case 'inside':
                   count = airQualityData.filter(item => item.sensor.placement === 'INSIDE').length;
-                  break;
-                case 'aqicn':
-                  count = airQualityData.filter(item => item.sensor.source === 'aqicn.org').length;
-                  break;
-                case 'claritty':
-                  count = airQualityData.filter(item => item.sensor.source === 'Claritty').length;
                   break;
               }
             }

@@ -4,9 +4,12 @@ import { useState } from 'react';
 import Logo from './Logo';
 import Navigation from './Navigation';
 import Dropdowns from './Dropdowns';
+import { useAppDispatch } from '../../hooks/redux';
+import { setSelectedIndicator } from '../../store/slices/airQualitySlice';
 import '../../styles/top-menu.scss';
 
 export default function TopMenu() {
+  const dispatch = useAppDispatch();
   const [activeTab, setActiveTab] = useState('map');
   const [indicatorDropdownOpen, setIndicatorDropdownOpen] = useState(false);
   const [sensorsDropdownOpen, setSensorsDropdownOpen] = useState(false);
@@ -23,6 +26,8 @@ export default function TopMenu() {
 
   const handleIndicatorSelect = (value: string) => {
     setIndicatorDropdownOpen(false);
+    // Обновляем выбранный показатель в Redux store
+    dispatch(setSelectedIndicator(value));
   };
 
   const handleSensorSelect = (value: string) => {
