@@ -1,0 +1,64 @@
+.map-container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+}
+@media (max-width: 768px) {
+  .map-container {
+    height: 100vh;
+  }
+  .map-container .leaflet-container {
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+  .map-container .leaflet-control-zoom {
+    transform: scale(0.9);
+    transform-origin: top right;
+  }
+  .map-container .leaflet-control-attribution {
+    font-size: 0.75rem;
+    padding: 2px 4px;
+  }
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+  .map-container {
+    height: 100vh;
+  }
+}
+@media (min-width: 1025px) {
+  .map-container {
+    height: 100vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-optimized button,
+  .mobile-optimized a,
+  .mobile-optimized input,
+  .mobile-optimized select {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  .mobile-optimized h1 {
+    font-size: 1.5rem;
+  }
+  .mobile-optimized h2 {
+    font-size: 1.25rem;
+  }
+  .mobile-optimized h3 {
+    font-size: 1.125rem;
+  }
+  .mobile-optimized .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+.performance-optimized {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}/*# sourceMappingURL=map.css.map */

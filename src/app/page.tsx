@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import LoadingModal from '../components/LoadingModal';
+import TopMenu from '../components/TopMenu';
 
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
@@ -27,7 +28,9 @@ export default function Home() {
           />
         </MapContainer>
       </div>
-      
+
+      <TopMenu />
+
       <LoadingModal 
         isVisible={showModal} 
         onClose={() => setShowModal(false)} 
