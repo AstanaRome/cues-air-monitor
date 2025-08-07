@@ -6,10 +6,13 @@ import { selectFilteredData, selectSelectedIndicator } from '../../store/slices/
 import MapMarkers from './MapMarkers';
 import 'leaflet/dist/leaflet.css';
 
+// Тип для Leaflet карты
+type LeafletMap = any;
+
 export default function MapContainer() {
   const [isClient, setIsClient] = useState(false);
   const mapRef = useRef<HTMLDivElement>(null);
-  const leafletMapRef = useRef<any>(null);
+  const leafletMapRef = useRef<LeafletMap>(null);
   const [mapId] = useState(() => `map-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`);
 
   // Получаем данные из Redux store
@@ -25,7 +28,7 @@ export default function MapContainer() {
   useEffect(() => {
     if (!isClient) return;
 
-    let map: any = null;
+    let map: LeafletMap = null;
 
     const initMap = async () => {
       try {
@@ -76,9 +79,12 @@ export default function MapContainer() {
     return () => {
       clearTimeout(timeoutId);
       
-      if (leafletMapRef.current) {
+      // Сохраняем ссылку на карту в переменную для использования в cleanup
+      const currentMap = leafletMapRef.current;
+      
+      if (currentMap) {
         try {
-          leafletMapRef.current.remove();
+          currentMap.remove();
           console.log(`Map ${mapId} removed successfully`);
         } catch (error) {
           console.error('Error removing map:', error);

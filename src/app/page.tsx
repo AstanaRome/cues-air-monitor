@@ -3,8 +3,8 @@
 import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import TopMenu from '../components/TopMenu';
-import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import { fetchAirQualityData, selectLoading, selectError } from '../store/slices/airQualitySlice';
+import { useAppDispatch } from '../hooks/redux';
+import { fetchAirQualityData } from '../store/slices/airQualitySlice';
 
 // Динамический импорт карты
 const Map = dynamic(() => import('../components/Map'), {
@@ -18,8 +18,6 @@ const Map = dynamic(() => import('../components/Map'), {
 
 export default function Home() {
   const dispatch = useAppDispatch();
-  const loading = useAppSelector(selectLoading);
-  const error = useAppSelector(selectError);
 
   useEffect(() => {
     // Загружаем данные при монтировании компонента

@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Простая конфигурация без проблемных настроек
+  // Включаем standalone режим для Docker
+  output: 'standalone'
 };
 
 export default nextConfig;
