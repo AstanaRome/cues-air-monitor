@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css';
 
 export default function Home() {
   return (
-    <div className="w-full h-screen">
+    <div className="map-container mobile-optimized performance-optimized fade-in">
       <MapContainer
         center={[43.2389, 76.8897]}
         zoom={12}
