@@ -1,75 +1,207 @@
-// Стили для карты
+// Основные стили карты
 .map-container {
-  width: 100%;
-  height: 100vh;
   position: relative;
-  
-  // Мобильная оптимизация карты
-  @media (max-width: 768px) {
-    height: 100vh;
-    
-    // Улучшенное взаимодействие на мобильных
-    .leaflet-container {
-      touch-action: manipulation;
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
+  height: 100vh;
+  width: 100vw;
+}
+
+.map-element {
+  height: 100%;
+  width: 100%;
+}
+
+.map-loading {
+  height: 100%;
+  width: 100%;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: #666;
+}
+
+// Стили маркеров
+.custom-marker {
+  .marker-indicator {
+    box-sizing: border-box;
+    width: 48px;
+    height: 36px;
+    border: 2px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.05), 0px 8px 16.6px rgba(0, 0, 0, 0.12);
+    border-radius: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+    color: #00182A;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1), 0px 12px 24px rgba(0, 0, 0, 0.15);
     }
-    
-    // Оптимизация контролов карты
-    .leaflet-control-zoom {
-      transform: scale(0.9);
-      transform-origin: top right;
+
+    // Специальный стиль для домашних датчиков
+    &.inside-sensor {
+      position: relative;
+      width: 50px;
+      height: 43px;
+      background: transparent !important;
+      border: none;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      svg {
+        width: 100%;
+        height: 100%;
+      }
     }
-    
-    .leaflet-control-attribution {
-      font-size: 0.75rem;
-      padding: 2px 4px;
-    }
-  }
-  
-  // Планшеты
-  @media (min-width: 769px) and (max-width: 1024px) {
-    height: 100vh;
-  }
-  
-  // Десктоп
-  @media (min-width: 1025px) {
-    height: 100vh;
   }
 }
 
-// Утилиты для мобильных
-.mobile-optimized {
-  @media (max-width: 768px) {
-    // Увеличиваем области касания
-    button, 
-    a, 
-    input, 
-    select {
-      min-height: 44px;
-      min-width: 44px;
+// Стили popup'ов
+.marker-popup {
+  min-width: 200px;
+  font-family: 'Inter', sans-serif;
+
+  .marker-popup-title {
+    margin: 0 0 8px 0;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .marker-popup-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 0;
+  }
+
+  .marker-popup-indicator {
+    box-sizing: border-box;
+    width: 48px;
+    height: 36px;
+    border: 2px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.05), 0px 8px 16.6px rgba(0, 0, 0, 0.12);
+    border-radius: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    color: #00182A;
+    flex-shrink: 0;
+  }
+
+  .marker-popup-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .marker-popup-label {
+    margin: 4px 0;
+    font-size: 12px;
+    color: #666;
+    line-height: 1.2;
+
+    strong {
+      font-weight: 600;
     }
-    
-    // Улучшаем читаемость
-    h1 { font-size: 1.5rem; }
-    h2 { font-size: 1.25rem; }
-    h3 { font-size: 1.125rem; }
-    
-    // Оптимизируем отступы
-    .container {
-      padding-left: 1rem;
-      padding-right: 1rem;
+  }
+
+  .marker-popup-level {
+    margin: 4px 0;
+    font-size: 11px;
+    color: #888;
+    line-height: 1.2;
+  }
+}
+
+// Переопределение стилей Leaflet popup
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.leaflet-popup-content {
+  margin: 12px;
+  line-height: 1.4;
+}
+
+.leaflet-popup-tip {
+  background: white;
+}
+
+// Адаптивность для мобильных устройств
+@media (max-width: 768px) {
+  .custom-marker {
+    .marker-indicator {
+      width: 40px;
+      height: 30px;
+      font-size: 10px;
+      border-radius: 28px;
+
+      &.inside-sensor {
+        width: 40px;
+        height: 34px;
+      }
+    }
+  }
+
+  .marker-popup {
+    min-width: 180px;
+
+    .marker-popup-title {
+      font-size: 13px;
+    }
+
+    .marker-popup-indicator {
+      width: 40px;
+      height: 30px;
+      font-size: 10px;
+      border-radius: 28px;
+    }
+
+    .marker-popup-label {
+      font-size: 11px;
+    }
+
+    .marker-popup-level {
+      font-size: 10px;
     }
   }
 }
 
-// Улучшения для производительности
-.performance-optimized {
-  will-change: transform;
-  backface-visibility: hidden;
-  transform: translateZ(0);
+// Адаптивность для планшетов
+@media (min-width: 769px) and (max-width: 1024px) {
+  .custom-marker {
+    .marker-indicator {
+      width: 44px;
+      height: 33px;
+      font-size: 11px;
+      border-radius: 31px;
+    }
+  }
+
+  .marker-popup {
+    .marker-popup-indicator {
+      width: 44px;
+      height: 33px;
+      font-size: 11px;
+      border-radius: 31px;
+    }
+  }
 } 

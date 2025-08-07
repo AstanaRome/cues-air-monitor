@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import LoadingModal from '../components/LoadingModal';
 import TopMenu from '../components/TopMenu';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { fetchAirQualityData, selectLoading, selectError } from '../store/slices/airQualitySlice';
@@ -24,7 +23,7 @@ export default function Home() {
 
   useEffect(() => {
     // Загружаем данные при монтировании компонента
-    dispatch(fetchAirQualityData());
+    dispatch(fetchAirQualityData('2025-08-01T12:00:00Z'));
   }, [dispatch]);
 
   return (
@@ -34,11 +33,6 @@ export default function Home() {
       </div>
 
       <TopMenu />
-
-      <LoadingModal 
-        isVisible={loading} 
-        onClose={() => {}} 
-      />
     </>
   );
 }

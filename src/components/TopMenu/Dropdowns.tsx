@@ -4,7 +4,8 @@ import {
   fetchAirQualityData, 
   selectAirQualityData, 
   selectLoading, 
-  selectSelectedIndicator 
+  selectSelectedIndicator,
+  selectSelectedSensorType
 } from '../../store/slices/airQualitySlice';
 
 interface DropdownsProps {
@@ -32,6 +33,7 @@ export default function Dropdowns({
   const airQualityData = useAppSelector(selectAirQualityData);
   const loading = useAppSelector(selectLoading);
   const selectedIndicator = useAppSelector(selectSelectedIndicator);
+  const selectedSensorType = useAppSelector(selectSelectedSensorType);
 
   // Загружаем данные при монтировании компонента
   useEffect(() => {
@@ -121,7 +123,7 @@ export default function Dropdowns({
             return (
               <div
                 key={option.id}
-                className="dropdown-item"
+                className={`dropdown-item ${selectedSensorType === option.value ? 'selected' : ''}`}
                 onClick={() => onSensorSelect(option.value)}
               >
                 {option.label} ({count})

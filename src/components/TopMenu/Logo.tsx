@@ -1,7 +1,7 @@
 export default function Logo() {
   return (
     <div className="logo">
-      <div className="logo-union"></div>
+      <img src="/logo.svg" alt="CUES Air Monitor Logo" className="logo-image" />
     </div>
   );
 } 

@@ -5,7 +5,7 @@ import Logo from './Logo';
 import Navigation from './Navigation';
 import Dropdowns from './Dropdowns';
 import { useAppDispatch } from '../../hooks/redux';
-import { setSelectedIndicator } from '../../store/slices/airQualitySlice';
+import { setSelectedIndicator, setSelectedSensorType } from '../../store/slices/airQualitySlice';
 import '../../styles/top-menu.scss';
 
 export default function TopMenu() {
@@ -32,6 +32,8 @@ export default function TopMenu() {
 
   const handleSensorSelect = (value: string) => {
     setSensorsDropdownOpen(false);
+    // Обновляем выбранный тип датчиков в Redux store
+    dispatch(setSelectedSensorType(value));
   };
 
   return (

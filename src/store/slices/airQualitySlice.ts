@@ -32,28 +32,29 @@ export interface AirQualityState {
   error: string | null;
   selectedIndicator: string;
   selectedDate: string;
+  selectedSensorType: string;
 }
 
 // Цветовые схемы для разных показателей
 export const getPM25Color = (value: number): string => {
-  if (value <= 12) return '#4CAF50'; // 🟩 Зелёный
-  if (value <= 35.4) return '#FFC107'; // 🟨 Жёлтый
-  if (value <= 55.4) return '#FF9800'; // 🟧 Оранжевый
-  return '#F44336'; // 🟥 Красный
+  if (value <= 12) return '#D3EB1E'; // 🟩 Lime (Хороший)
+  if (value <= 35.4) return '#FFC107'; // 🟨 Жёлтый (Умеренный)
+  if (value <= 55.4) return '#FF9800'; // 🟧 Оранжевый (Вреден для чувствительных групп)
+  return '#F44336'; // 🟥 Красный (Вреден для всех)
 };
 
 export const getPM10Color = (value: number): string => {
-  if (value <= 20) return '#4CAF50'; // 🟩 Зелёный
-  if (value <= 50) return '#FFC107'; // 🟨 Жёлтый
-  if (value <= 100) return '#FF9800'; // 🟧 Оранжевый
-  return '#F44336'; // 🟥 Красный
+  if (value <= 20) return '#D3EB1E'; // 🟩 Lime (Хороший)
+  if (value <= 50) return '#FFC107'; // 🟨 Жёлтый (Умеренный)
+  if (value <= 100) return '#FF9800'; // 🟧 Оранжевый (Вреден для чувствительных групп)
+  return '#F44336'; // 🟥 Красный (Вреден для всех)
 };
 
 export const getPM1Color = (value: number): string => {
-  if (value <= 10) return '#4CAF50'; // 🟩 Зелёный
-  if (value <= 25) return '#FFC107'; // 🟨 Жёлтый
-  if (value <= 50) return '#FF9800'; // 🟧 Оранжевый
-  return '#F44336'; // 🟥 Красный
+  if (value <= 10) return '#D3EB1E'; // 🟩 Lime (Хороший)
+  if (value <= 25) return '#FFC107'; // 🟨 Жёлтый (Умеренный)
+  if (value <= 50) return '#FF9800'; // 🟧 Оранжевый (Вреден для чувствительных групп)
+  return '#F44336'; // 🟥 Красный (Вреден для всех)
 };
 
 export const getIndicatorColor = (indicator: string, value: number): string => {
@@ -67,6 +68,11 @@ export const getIndicatorColor = (indicator: string, value: number): string => {
     default:
       return '#9E9E9E'; // Серый по умолчанию
   }
+};
+
+// Функция для получения цвета индикатора (для UI компонентов)
+export const getIndicatorBackgroundColor = (indicator: string, value: number): string => {
+  return getIndicatorColor(indicator, value);
 };
 
 export const getIndicatorLevel = (indicator: string, value: number): string => {
@@ -120,6 +126,7 @@ const initialState: AirQualityState = {
   error: null,
   selectedIndicator: 'pm25',
   selectedDate: '2025-08-01T12:00:00Z',
+  selectedSensorType: 'all',
 };
 
 // Slice
@@ -132,6 +139,9 @@ const airQualitySlice = createSlice({
     },
     setSelectedDate: (state, action: PayloadAction<string>) => {
       state.selectedDate = action.payload;
+    },
+    setSelectedSensorType: (state, action: PayloadAction<string>) => {
+      state.selectedSensorType = action.payload;
     },
     clearError: (state) => {
       state.error = null;
@@ -156,7 +166,7 @@ const airQualitySlice = createSlice({
 });
 
 // Экспорты
-export const { setSelectedIndicator, setSelectedDate, clearError } = airQualitySlice.actions;
+export const { setSelectedIndicator, setSelectedDate, setSelectedSensorType, clearError } = airQualitySlice.actions;
 export default airQualitySlice.reducer;
 
 // Селекторы
@@ -165,18 +175,37 @@ export const selectLoading = (state: { airQuality: AirQualityState }) => state.a
 export const selectError = (state: { airQuality: AirQualityState }) => state.airQuality.error;
 export const selectSelectedIndicator = (state: { airQuality: AirQualityState }) => state.airQuality.selectedIndicator;
 export const selectSelectedDate = (state: { airQuality: AirQualityState }) => state.airQuality.selectedDate;
+export const selectSelectedSensorType = (state: { airQuality: AirQualityState }) => state.airQuality.selectedSensorType;
 
-// Селектор для фильтрации данных по выбранному показателю
+// Селектор для фильтрации данных по выбранному показателю и типу датчиков
 export const selectFilteredData = (state: { airQuality: AirQualityState }) => {
-  const { data, selectedIndicator } = state.airQuality;
+  const { data, selectedIndicator, selectedSensorType } = state.airQuality;
   return data.filter(item => {
+    // Фильтрация по типу датчиков
+    let sensorTypeMatch = true;
+    switch (selectedSensorType) {
+      case 'street':
+        sensorTypeMatch = item.sensor.placement === 'STREET';
+        break;
+      case 'inside':
+        sensorTypeMatch = item.sensor.placement === 'INSIDE';
+        break;
+      case 'all':
+      default:
+        sensorTypeMatch = true;
+        break;
+    }
+
+    if (!sensorTypeMatch) return false;
+
+    // Фильтрация по показателю
     switch (selectedIndicator) {
       case 'pm25':
-        return item.particulate_matter.pm25 !== null;
+        return item.particulate_matter.pm25 !== null && item.particulate_matter.pm25 !== undefined;
       case 'pm10':
-        return item.particulate_matter.pm10 !== null;
+        return item.particulate_matter.pm10 !== null && item.particulate_matter.pm10 !== undefined;
       case 'pm1':
-        return item.particulate_matter.pm1 !== null;
+        return item.particulate_matter.pm1 !== null && item.particulate_matter.pm1 !== undefined;
       default:
         return true;
     }
