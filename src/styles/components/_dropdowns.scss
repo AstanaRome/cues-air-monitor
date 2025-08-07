@@ -1,0 +1,119 @@
+// Выпадающие селекты под топ-меню
+.top-menu-dropdowns {
+  position: fixed;
+  top: 100px; // 20px (top) + 64px (height) + 16px (gap) = 100px от топ-меню
+  left: 50%;
+  transform: translateX(-50%);
+  width: 623px;
+  height: 0;
+  z-index: 999;
+  pointer-events: none;
+
+  // Выпадающий список показателей
+  .indicators-dropdown {
+    position: absolute;
+    top: 0;
+    right: 32px; // Позиционируем справа от топ-меню
+    width: 240px;
+    height: 164px;
+    background: #FFFFFF;
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.05), 0px 8px 16.6px rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(6.3px);
+    border-radius: 16px;
+    padding: 16px;
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    isolation: isolate;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease;
+    pointer-events: auto;
+
+    &.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-item {
+      width: 208px;
+      height: 20px;
+      font-family: 'Inter', sans-serif;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 20px;
+      color: #00182A;
+      cursor: pointer;
+      transition: color 0.2s ease;
+      flex: none;
+      align-self: stretch;
+      flex-grow: 0;
+
+      &:hover {
+        color: #0C8CE9;
+      }
+
+      &.selected {
+        color: #0C8CE9;
+        font-weight: 600;
+      }
+    }
+  }
+
+  // Выпадающий список датчиков
+  .sensors-dropdown {
+    position: absolute;
+    top: 0;
+    right: 0; // Позиционируем в самом правом углу
+    width: 240px;
+    background: #FFFFFF;
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.05), 0px 8px 16.6px rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(6.3px);
+    border-radius: 16px;
+    padding: 16px;
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease;
+    pointer-events: auto;
+
+    &.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-item {
+      width: 208px;
+      height: 20px;
+      font-family: 'Inter', sans-serif;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 20px;
+      color: #00182A;
+      cursor: pointer;
+      transition: color 0.2s ease;
+      flex: none;
+      align-self: stretch;
+      flex-grow: 0;
+
+      &:hover {
+        color: #0C8CE9;
+      }
+
+      &.selected {
+        color: #0C8CE9;
+        font-weight: 600;
+      }
+    }
+  }
+} 

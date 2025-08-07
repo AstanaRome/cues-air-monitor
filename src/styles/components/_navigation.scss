@@ -1,0 +1,54 @@
+// Навигационные элементы
+.nav-items {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 24px;
+  width: 405px;
+  height: 24px;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+
+  .nav-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &.active {
+      .nav-label {
+        color: #0C8CE9;
+        font-weight: 600;
+      }
+    }
+
+    .nav-label {
+      font-family: 'Inter', sans-serif;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 20px;
+      color: #00182A;
+      transition: color 0.2s ease;
+      white-space: nowrap;
+
+      // Адаптивность для мобильных устройств
+      @media (max-width: 768px) {
+        font-size: 14px;
+        line-height: 18px;
+      }
+    }
+
+    &.active .nav-label {
+      color: #0C8CE9;
+    }
+  }
+} 

@@ -1,0 +1,36 @@
+// Логотип
+.logo {
+  width: 115px;
+  height: 20px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  position: relative;
+
+  .logo-union {
+    position: absolute;
+    width: 113.19px;
+    height: 17.42px;
+    left: 1px;
+    top: 1.79px;
+    background: #00182A;
+  }
+
+  .logo-union-2 {
+    position: absolute;
+    width: 36.4px;
+    height: 17.16px;
+    left: 1px;
+    top: 2.05px;
+    background: #00182A;
+  }
+
+  .logo-subtract {
+    position: absolute;
+    width: 23.27px;
+    height: 16.92px;
+    left: 23.69px;
+    top: -11px;
+    background: #00182A;
+  }
+} 
