@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Logo from './Logo';
 import Navigation from './Navigation';
 import Dropdowns from './Dropdowns';
+import '../../styles/top-menu.scss';
 
 export default function TopMenu() {
   const [activeTab, setActiveTab] = useState('map');

@@ -1,5 +1,7 @@
 // Главный файл стилей
-@import './base.scss';
-@import './map.scss';
-@import './modal.scss';
-@import './top-menu.scss';
+@use './base.scss';
+@use './map.scss';
+@use './modal.scss';
+@use './top-menu.scss';
+
+// Принудительное обновление для hot reload - $(Date.now())

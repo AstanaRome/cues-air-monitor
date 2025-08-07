@@ -1,7 +1,7 @@
 // Импорты компонентов
-@import 'components/logo';
-@import 'components/navigation';
-@import 'components/dropdowns';
+@use 'components/logo';
+@use 'components/navigation';
+@use 'components/dropdowns';
 
 // Топ-меню в стиле Figma
 .top-menu {
@@ -17,9 +17,9 @@
   left: 50%;
   top: 20px;
   transform: translateX(-50%);
-  background: transparent;
-  box-shadow: none;
-  backdrop-filter: none;
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.05), 0px 8px 16.6px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(6.3px);
   border-radius: 44px;
   z-index: 1000;
 
